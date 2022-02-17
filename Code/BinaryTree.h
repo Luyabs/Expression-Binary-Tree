@@ -87,10 +87,10 @@ template <class ElemType>
 BinaryTree<ElemType>& CreateBinaryTree(ElemType pre[], ElemType in[], int n);
 // 已知先序和中序序列构造二叉树
 template <class ElemType>
-BinaryTree<ElemType>& Creat_LRV_LVR(ElemType LRV[],ElemType LVR[],int len);
+BinaryTree<ElemType>& Creat_LRV_LVR(ElemType LRV[], ElemType LVR[], int len);
 // 已知中序和后序序列构造二叉树
 template <class ElemType>
-void Creat_LRV_LVR(BinTreeNode<ElemType> *&p,ElemType *LRVh,ElemType *LRVt,ElemType *LVRh,ElemType *LVRt);
+void Creat_LRV_LVR(BinTreeNode<ElemType>*& p, ElemType* LRVh, ElemType* LRVt, ElemType* LVRh, ElemType* LVRt);
 
 /*判断符号优先级*/
 /*判断op是否为符号*/
@@ -179,26 +179,26 @@ template <class ElemType>
 void BinaryTree<ElemType>::InOrder(BinTreeNode<ElemType>* r, void (*Visit)(const ElemType&)) const
 // 操作结果：中序遍历以r为根的二叉树(带括号)
 {
-	if (r != NULL) 	
+	if (r != NULL)
 	{
 		/*若r的左子树上是符号，并且小于r上的符号优先级，则添加括号*/
-		if (r->leftChild && judgeLeft(r->data,r->leftChild->data))
+		if (r->leftChild && judgeLeft(r->data, r->leftChild->data))
 		{
-			cout<<"(";
+			cout << "(";
 			InOrder(r->leftChild, Visit);// 首先遍历r的左子树
-			cout<<")";
+			cout << ")";
 		}
 		else
 			InOrder(r->leftChild, Visit);
- 
+
 		(*Visit)(r->data);				// 再访问根结点r
- 
+
 		/*若r的右子树上是符号，并且不大于r上的符号优先级，则判断后添加括号*/
 		if (r->rightChild && judgeRight(r->data, r->rightChild->data))
 		{
-			cout<<"(";
+			cout << "(";
 			InOrder(r->rightChild, Visit);	// 最后遍历r的右子树
-			cout<<")";
+			cout << ")";
 		}
 		else
 			InOrder(r->rightChild, Visit);
@@ -509,37 +509,38 @@ BinaryTree<ElemType>& CreateBinaryTree(ElemType pre[], ElemType in[], int n)
 }
 
 template <class ElemType>
-BinaryTree<ElemType>& Creat_LRV_LVR(ElemType LRV[],ElemType LVR[],int len)
+BinaryTree<ElemType>& Creat_LRV_LVR(ElemType LRV[], ElemType LVR[], int len)
 // 操作结果：已知中序和后序序列构造二叉树
 {
-	BinTreeNode<ElemType> *r;						// 二叉树的根
-	Creat_LRV_LVR(r,LRV,LRV+len-1,LVR,LVR+len-1);
-	BinaryTree<ElemType> *bt = new BinaryTree<ElemType>(r);	// 生成二叉树
+	BinTreeNode<ElemType>* r;						// 二叉树的根
+	Creat_LRV_LVR(r, LRV, LRV + len - 1, LVR, LVR + len - 1);
+	BinaryTree<ElemType>* bt = new BinaryTree<ElemType>(r);	// 生成二叉树
 	return *bt;
 }
 
 
 template <class ElemType>
-void Creat_LRV_LVR(BinTreeNode<ElemType> *&p,ElemType *LRVh,ElemType *LRVt,ElemType *LVRh,ElemType *LVRt)
+void Creat_LRV_LVR(BinTreeNode<ElemType>*& p, ElemType* LRVh, ElemType* LRVt, ElemType* LVRh, ElemType* LVRt)
 //	以p为根的二叉树
 {
-	ElemType *valuepost = LRVt;
-	ElemType *valuein = LVRh;
+	ElemType* valuepost = LRVt;
+	ElemType* valuein = LVRh;
 	p = new BinTreeNode<ElemType>((*valuepost));
-	if(*LRVh == *LRVt||*LVRh == *LVRt)
+	if (*LRVh == *LRVt || *LVRh == *LVRt)
 		return;
-	if(*valuein == '\0')
-		return;
-	while((*valuein) != '\0'&& (*valuein) != *valuepost)
+	/*
+	if (*valuein == '\0')
+		return;*/
+	while (/*(*valuein) != '\0' && */(*valuein) != *valuepost)
 		++valuein;
-	int rightlen = LVRt-valuein; //中序遍历右子树的长度
-	if(rightlen > 0)
+	int rightlen = LVRt - valuein; //中序遍历右子树的长度
+	if (rightlen > 0)
 	{
-		Creat_LRV_LVR(p->rightChild,LRVh,LRVt-1,valuein+1,LVRt);
+		Creat_LRV_LVR(p->rightChild, LRVh, LRVt - 1, valuein + 1, LVRt);
 	}
-	if(rightlen < LRVt-LRVh)
+	if (rightlen < LRVt - LRVh)
 	{
-		Creat_LRV_LVR(p->leftChild,LRVh,LRVt-rightlen-1,LVRh,valuein-1);//注意参数
+		Creat_LRV_LVR(p->leftChild, LRVh, LRVt - rightlen - 1, LVRh, valuein - 1);//注意参数
 	}
 	return;
 }
@@ -561,7 +562,7 @@ bool judgeLeft(ElemType op1, ElemType op2)
 		return true;
 	return false;
 }
- 
+
 /*判断父节点op1的优先级是否大于右节点op2，若相等还需判断父节点是否为'/'或'-' */
 template <class ElemType>
 bool judgeRight(ElemType op1, ElemType op2)
