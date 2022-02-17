@@ -533,6 +533,12 @@ void Creat_LRV_LVR(BinTreeNode<ElemType>*& p, ElemType* LRVh, ElemType* LRVt, El
 		return;*/
 	while (/*(*valuein) != '\0' && */(*valuein) != *valuepost)
 		++valuein;
+	if(*(valuepost-1) == (*valuepost))
+	{
+		++valuein;
+		while(/*(*valuein) != '\0'&& */(*valuein) != *valuepost)
+		++valuein;
+	}
 	int rightlen = LVRt - valuein; //中序遍历右子树的长度
 	if (rightlen > 0)
 	{
