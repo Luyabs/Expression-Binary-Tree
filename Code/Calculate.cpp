@@ -62,6 +62,7 @@ LinkStack<double> DictBuilding(int num )
 {
 	LinkStack<double> dictionary;
 	double buffer;
+	cout << "依次输入" << num << "个数给变量赋值(变量顺序为中缀表达式从左到右)" << endl;
 	for (int i = 0; i < num; i++)
 	{
 		cin >> buffer;
