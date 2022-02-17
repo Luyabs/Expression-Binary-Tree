@@ -1,10 +1,14 @@
 #pragma once
 #include "BinaryTree.h"
-#include "LinkStack.h"			//Õ»ÓÃÓÚ¸ø±äÁ¿¸³Öµ
+#include "LinkStack.h"			//æ ˆç”¨äºç»™å˜é‡èµ‹å€¼
 #include <string>
 
-bool IsLeaf(const BinTreeNode<string>* r);			//ÊÇ·ñÒ¶×Ó½Úµã
-LinkStack<double> DictBuilding(int num = 0);		//½¨Á¢±äÁ¿´Êµä
-string Operate(const string& first, const string& op, const string& second, LinkStack<double>& dict);	// ËÄÔòÔËËã(Ö§³Ö±äÁ¿Óë³£Á¿): R(string1,string2) = F(num1,num2) = num3 ¡ú string3
-string Calculate(const BinTreeNode<string>* r, LinkStack<double>& dict);		//¶Á¶ş²æÊ÷ÖĞ±í´ïÊ½×öÔËËã
-double Calculate(const BinaryTree<string>& tree, LinkStack<double>& dict);		//¶Á¶ş²æÊ÷ÖĞ±í´ïÊ½×öÔËËã
+int OperPrior(char op1, char op2);
+bool IsLeaf(const BinTreeNode<string>* r);			//æ˜¯å¦å¶å­èŠ‚ç‚¹
+bool IsOperator(char ch);
+// æ“ä½œç»“æœï¼šåˆ¤æ–­chæ˜¯å¦ä¸ºæ“ä½œç¬¦ 
+LinkStack<double> DictBuilding(int num = 0);		//å»ºç«‹å˜é‡è¯å…¸
+void InfixInToPostfix(string* in, string* post, int& n);
+string Operate(const string& first, const string& op, const string& second, LinkStack<double>& dict);	// å››åˆ™è¿ç®—(æ”¯æŒå˜é‡ä¸å¸¸é‡): R(string1,string2) = F(num1,num2) = num3 â†’ string3
+string Calculate(const BinTreeNode<string>* r, LinkStack<double>& dict);		//è¯»äºŒå‰æ ‘ä¸­è¡¨è¾¾å¼åšè¿ç®—
+double Calculate(const BinaryTree<string>& tree, LinkStack<double>& dict);		//è¯»äºŒå‰æ ‘ä¸­è¡¨è¾¾å¼åšè¿ç®—
