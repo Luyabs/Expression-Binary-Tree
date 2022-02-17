@@ -12,6 +12,16 @@ void test1()
 	bt.InOrder(Write<char>);
 }
 
+void test2()
+{
+	string in[100], post[100];
+	int k=0;
+	InfixInToPostfix(in, post, k);
+	BinaryTree<string> bt;
+	bt = Creat_LRV_LVR(post, in, k);
+	DisplayBTWithTreeShape<string>(bt);
+}
+
 int main()
 {
 	test1();
