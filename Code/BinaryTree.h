@@ -524,7 +524,7 @@ void Creat_LRV_LVR(BinTreeNode<ElemType>*& p, ElemType* LRVh, ElemType* LRVt, El
 //	以p为根的二叉树
 {
 	ElemType* valuepost = LRVt;
-	ElemType* valuein = LVRh;
+	ElemType* valuein = LVRt;
 	p = new BinTreeNode<ElemType>((*valuepost));
 	if (*LRVh == *LRVt || *LVRh == *LVRt)
 		return;
@@ -532,12 +532,12 @@ void Creat_LRV_LVR(BinTreeNode<ElemType>*& p, ElemType* LRVh, ElemType* LRVt, El
 	if (*valuein == '\0')
 		return;*/
 	while (/*(*valuein) != '\0' && */(*valuein) != *valuepost)
-		++valuein;
+		--valuein;
 	if(*(valuepost-1) == (*valuepost))
 	{
-		++valuein;
+		--valuein;
 		while(/*(*valuein) != '\0'&& */(*valuein) != *valuepost)
-		++valuein;
+		--valuein;
 	}
 	int rightlen = LVRt - valuein; //中序遍历右子树的长度
 	if (rightlen > 0)
