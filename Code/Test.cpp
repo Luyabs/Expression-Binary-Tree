@@ -6,7 +6,7 @@ void test1()
 	char LRV[]={'a','b','c','-','e','f','g','+','*','/','-'};  // 后序序列
 	int n = 11;						                  // 结点个数
 	BinaryTree<char> bt;
-	bt = Creat_LRV_LVR(LRV, LVR, n);
+	bt = Creat_LRV_LVR(LRV, LVR, n,-1);
 	DisplayBTWithTreeShape<char>(bt);
 	cout << endl << "中缀表达式：" << endl;
 	bt.InOrder(Write<char>);
@@ -23,7 +23,7 @@ void test2()
 	}
 	cout << endl;
 	BinaryTree<string> bt;
-	bt = Creat_LRV_LVR(post, in, k);
+	bt = Creat_LRV_LVR(post, in, k,-1);
 	DisplayBTWithTreeShape<string>(bt);
 	LinkStack<double> dic;
 	while (1)
