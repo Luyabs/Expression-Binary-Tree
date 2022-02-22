@@ -509,58 +509,44 @@ BinaryTree<ElemType>& CreateBinaryTree(ElemType pre[], ElemType in[], int n)
 }
 
 template <class ElemType>
-BinaryTree<ElemType>& Creat_LRV_LVR(ElemType LRV[], ElemType LVR[], int len,int flag)
+BinaryTree<ElemType>& Creat_LRV_LVR(ElemType LRV[], ElemType LVR[], int len)
 // 操作结果：已知中序和后序序列构造二叉树
 {
-	BinTreeNode<ElemType> *r;						// 二叉树的根
-	flag++;
-	Creat_LRV_LVR(r,LRV,LRV+len-1,LVR,LVR+len-1,flag);
-	BinaryTree<ElemType> *bt = new BinaryTree<ElemType>(r);	// 生成二叉树
-	BinTreeNode<ElemType> *p=r;
-	while(p->leftChild!=NULL)
-		p=p->leftChild;
-	if(p->data!=(*LRV))
-	{
-		*bt=Creat_LRV_LVR(LRV,LVR,len,flag);
-	}
+	BinTreeNode<ElemType>* r;						// 二叉树的根
+	Creat_LRV_LVR(r, LRV, LRV + len - 1, LVR, LVR + len - 1);
+	BinaryTree<ElemType>* bt = new BinaryTree<ElemType>(r);	// 生成二叉树
 	return *bt;
 }
 
 
 template <class ElemType>
-void Creat_LRV_LVR(BinTreeNode<ElemType>*& p, ElemType* LRVh, ElemType* LRVt, ElemType* LVRh, ElemType* LVRt,int flag)
+void Creat_LRV_LVR(BinTreeNode<ElemType>*& p, ElemType* LRVh, ElemType* LRVt, ElemType* LVRh, ElemType* LVRt)
 //	以p为根的二叉树
 {
-	ElemType *valuepost = LRVt;
-	ElemType *valuein = LVRt;
+	ElemType* valuepost = LRVt;
+	ElemType* valuein = LVRh;
 	p = new BinTreeNode<ElemType>((*valuepost));
-	if(*LRVh == *LRVt||*LVRh == *LVRt)
+	if (*LRVh == *LRVt || *LVRh == *LVRt)
 		return;
-	while((*valuein) != *valuepost)
-		--valuein;
-	while(*(valuepost-1) == (*valuepost))
+	/*
+	if (*valuein == '\0')
+		return;*/
+	while (/*(*valuein) != '\0' && */(*valuein) != *valuepost)
+		++valuein;
+	if(*(valuepost-1) == (*valuepost))
 	{
-		--valuepost;
-		--valuein;
-		while((*valuein) != *valuepost)
-			--valuein;
+		++valuein;
+		while(/*(*valuein) != '\0'&& */(*valuein) != *valuepost)
+		++valuein;
 	}
-	while(flag)
+	int rightlen = LVRt - valuein; //中序遍历右子树的长度
+	if (rightlen > 0)
 	{
-		--valuein;
-		while((*valuein) != *valuepost)
-			--valuein;
-		flag--;
+		Creat_LRV_LVR(p->rightChild, LRVh, LRVt - 1, valuein + 1, LVRt);
 	}
-	int rightlen = LVRt-valuein; //中序遍历右子树的长度
-	
-	if(rightlen > 0)
+	if (rightlen < LRVt - LRVh)
 	{
-		Creat_LRV_LVR(p->rightChild,LRVh,LRVt-1,valuein+1,LVRt,0);//调试的时候要注意看好这里的参数
-	}
-	if(rightlen < LRVt-LRVh)
-	{
-		Creat_LRV_LVR(p->leftChild,LRVh,LRVt-rightlen-1,LVRh,valuein-1,0);//调试的时候要注意看好这里的参数
+		Creat_LRV_LVR(p->leftChild, LRVh, LRVt - rightlen - 1, LVRh, valuein - 1);//注意参数
 	}
 	return;
 }
