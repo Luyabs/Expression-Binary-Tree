@@ -1,6 +1,5 @@
-#include "BinaryTree.h"
-#include "LinkStack.h"			//栈用于给变量赋值
-#include <string>
+#include "Calculate.h"
+
 int OperPrior(char op1, char op2)
 // 操作结果：返回操作符op1和op2优先级比较结果 
 {
@@ -58,17 +57,40 @@ bool IsOperator(char ch)
 		return false;
 };
 
-LinkStack<double> DictBuilding(int num )
+
+
+LinkList<dictionary> DictBuilding(int num)
 {
-	LinkStack<double> dictionary;
-	double buffer;
+	LinkList<dictionary> dict;
+	dictionary buffer;
+	char ch;
+	double val;
 	cout << "依次输入" << num << "个数给变量赋值(变量顺序为中缀表达式从左到右)" << endl;
 	for (int i = 0; i < num; i++)
 	{
-		cin >> buffer;
-		dictionary.Push(buffer);						//读取时将按照广度优先搜索的方式读取：每一层从左到右 再下一层
+		cin >> ch;
+		buffer.key = ch;
+		cin >> val;
+		buffer.value = val;
+		dict.InsertElem(buffer);
 	}
-	return dictionary;
+	return dict;
+}
+
+double DictFind(const LinkList<dictionary> &dict, const char& ch)
+{
+	Node<dictionary>* p = (dict.head)->next;
+	while (p != NULL) 
+	{
+		if ((p->data).key == ch)	
+		{
+			cout << (p->data).value <<' ';
+			return (p->data).value;
+		}
+		else
+			p = p->next;
+	}
+	cout << "参数不匹配" << endl;
 }
 
 void InfixInToPostfix(string* in, string* post, int& n)
@@ -141,18 +163,18 @@ void InfixInToPostfix(string* in, string* post, int& n)
 	n = i;
 }
 
-string Operate(const string &first, const string &op,const string &second, LinkStack<double> &dict)		// R(string1,string2) = F(num1,num2) = num3 → string3
+string Operate(const string &first, const string &op,const string &second, const LinkList<dictionary> &dict)		// R(string1,string2) = F(num1,num2) = num3 → string3
 // 操作结果：执行运算first op second
 {
 	double num1,num2;											//如果是变量(首位为小写字母) 从dictionary栈中读取
-	if (char(second[0]) >= 'a' && char(second[0]) <= 'z')		//读取时将按照广度优先搜索的方式读取：每一层从左到右 再下一层
-		dict.Pop(num2);						//!!!不能先出num1出栈，应当按从右到左 从下往上次序先让num2出栈
+	if (char(first[0]) >= 'a' && char(first[0]) <= 'z')
+		num1 = DictFind(dict, first[0]);					
 	else
-		num2 = stod(second);
-	if (char(first[0]) >= 'a' && char(first[0]) <= 'z')			
-		dict.Pop(num1);											
+		num1 = stod(first);
+	if (char(second[0]) >= 'a' && char(second[0]) <= 'z')
+		num2 = DictFind(dict, second[0]);
 	else
-		num1 = stod(first);	
+		num2 = stod(second);	
 
 	double result;
 	switch (op[0]) 
@@ -175,7 +197,7 @@ string Operate(const string &first, const string &op,const string &second, LinkS
 	return to_string(result);				// 返回运算结果 
 }
 
-string Calculate(const BinTreeNode<string>* r, LinkStack<double> &dict)
+string Calculate(const BinTreeNode<string>* r, const LinkList<dictionary> &dict)
 {
 	if (r == NULL)
 		return "没有二叉树";
@@ -185,7 +207,7 @@ string Calculate(const BinTreeNode<string>* r, LinkStack<double> &dict)
 		return r->data;
 }
 
-double Calculate(const BinaryTree<string>&tree, LinkStack<double> &dict)
+double Calculate(const BinaryTree<string>&tree, const LinkList<dictionary> &dict)
 {
 	return stod(Calculate(tree.GetRoot(), dict));
 }
