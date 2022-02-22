@@ -23,12 +23,16 @@ void test2()
 	}
 	cout << endl;
 	BinaryTree<string> bt;
-	bt = Creat_LRV_LVR(post, in, k,-1);
+	bt = Creat_LRV_LVR(post, in, k, -1);
 	DisplayBTWithTreeShape<string>(bt);
-	LinkStack<double> dic;
+	LinkList<dictionary> dic;
 	while (1)
-	{
-		dic = DictBuilding(4);
+	{	
+		int num;
+		cout << "这个表达式有几个变量?: " << endl;
+		cin >> num;
+		cout << "请依次为变量赋值\n(如 a6.6 \n b3.3): " << endl;
+		dic = DictBuilding(num);
 		cout << Calculate(bt, dic) << endl;
 	}
 }
