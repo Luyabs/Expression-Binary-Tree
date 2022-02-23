@@ -57,7 +57,28 @@ bool IsOperator(char ch)
 		return false;
 };
 
-
+int CountVariable(const BinaryTree<string> r)			//非递归遍历 统计变量个数
+{
+	int count = 0;
+	BinTreeNode<string>* root = r.GetRoot();
+	if (root == NULL)
+		return 0;
+	BinTreeNode<string>* p = root;
+	LinkStack<BinTreeNode<string>*> stack;
+	while (!stack.IsEmpty() || p != NULL)
+	{
+		while (p != NULL)
+		{
+			stack.Push(p);
+			p = p->leftChild;
+		}
+		stack.Pop(p);
+		if (p->data[0] >= 'a' && p->data[0] <= 'z')
+			count++;
+		p = p->rightChild;
+	}
+	return count;
+}
 
 LinkList<dictionary> DictBuilding(int num)
 {
@@ -65,7 +86,6 @@ LinkList<dictionary> DictBuilding(int num)
 	dictionary buffer;
 	char ch;
 	double val;
-	cout << "依次输入" << num << "个数给变量赋值(变量顺序为中缀表达式从左到右)" << endl;
 	for (int i = 0; i < num; i++)
 	{
 		cin >> ch;
@@ -84,13 +104,14 @@ double DictFind(const LinkList<dictionary> &dict, const char& ch)
 	{
 		if ((p->data).key == ch)	
 		{
-			cout << (p->data).value <<' ';
+			//cout << (p->data).value <<' ';
 			return (p->data).value;
 		}
 		else
 			p = p->next;
 	}
 	cout << "参数不匹配" << endl;
+	return -999999999;
 }
 
 void InfixInToPostfix(string* in, string* post, int& n)
