@@ -1,5 +1,6 @@
 #include "Calculate.h"
 
+/*
 void test1()
 {
 	char LVR[]={'a','-','b','-','c','/','e','*','f','+','g'}; // 中序序列
@@ -10,12 +11,12 @@ void test1()
 	DisplayBTWithTreeShape<char>(bt);
 	cout << endl << "中缀表达式：" << endl;
 	bt.InOrder(Write<char>);
-}
+}*/
 
 void test2()
 {
 	string in[100], post[100];
-	int k=0;
+	int k = 0;
 	InfixInToPostfix(in, post, k);
 	for (int i = 0; i < k; i++)
 	{
@@ -29,11 +30,11 @@ void test2()
 	while (1)
 	{	
 		int num;
-		cout << "这个表达式有几个变量?: " << endl;
-		cin >> num;
-		cout << "请依次为变量赋值\n(如 a6.6 \n b3.3): " << endl;
+		num = CountVariable(bt);
+		cout << "请依次为" << num << "个变量赋值\n(如 b3.3 a6.6 c1.1) : " << endl;
 		dic = DictBuilding(num);
 		cout << Calculate(bt, dic) << endl;
+		cout << endl;
 	}
 }
 
