@@ -39,7 +39,51 @@ void test2()
 
 int main()
 {
-	test2();
-	system("Pause");
-	system("cls");
+	BinTreeNode<string>* p;
+	BinaryTree<string> bt;
+	LinkList<dictionary> dic;
+	char c = 'x';
+	string e;
+	string in[100], post[100];
+	int k = 0;
+	InfixInToPostfix(in, post, k);
+	bt = CreateBinaryTree1(post, in, k);           // 构造二叉树
+	DisplayBTWithTreeShape<string>(bt);
+	cout << endl;
+
+	while (c != '0') {
+		cout << endl << "1. 输出中序表达式.";
+		cout << endl << "2. 输出后序表达式.";
+		cout << endl << "3. 计算表达式的值.";
+		cout << endl << "0. 退出";
+		cout << endl << "选择功能(0~3):";
+		cin >> c;
+		switch (c) {
+		case '1':
+			for (int i = 0; i < k; i++)
+			{
+				cout << in[i] << " ";
+			}
+			cout << endl;
+			break;
+		case '2':
+			for (int i = 0; i < k; i++)
+			{
+				cout << post[i] << " ";
+			}
+			cout << endl;
+			break;
+		case '3':
+			int num;
+			cout << "这个表达式有几个变量?: " << endl;
+			cin >> num;
+			cout << "请依次为变量赋值\n(如 a6.6 \n b3.3): " << endl;
+			dic = DictBuilding(num);
+			cout << Calculate(bt, dic) << endl;
+			break;
+		}
+	}
+
+	system("PAUSE");
+	return 0;
 }
